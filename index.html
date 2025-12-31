@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    
+    <meta property="og:title" content="Link Video Viral">
+    <meta property="og:description" content="Click to open direct template access.">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Capcut_logo.svg/1200px-Capcut_logo.svg.png">
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .loader {
+            border: 4px solid #333;
+            border-top: 4px solid #00F2EA; /* Warna CapCut */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn {
+            background: #00F2EA;
+            color: #000;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .debug {
+            color: #666;
+            font-size: 12px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <h3>Membuka Link Video</h3>
+    <p style="font-size: 14px; color: #aaa;">Jika tidak otomatis, tekan tombol di bawah:</p>
+    <a id="manual-btn" href="#" class="btn">TONTON SEKARANG</a>
+
+    <script>
+        // --- KONFIGURASI UTAMA ---
+        // Masukkan link affiliasi CapCut RAW (panjang) kamu di sini
+        const targetURL = "https://www.capcut.com/tv2/ZS5jkhVYU/"; 
+        // -------------------------
+
+        function triggerDeepLink() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const btn = document.getElementById('manual-btn');
+            
+            // Set link tombol manual sebagai cadangan
+            btn.href = targetURL;
+
+            // DETEKSI ANDROID
+            if (/android/i.test(userAgent)) {
+                // Logika Brutal: Paksa panggil Chrome via Intent
+                const urlClean = targetURL.replace("https://", "").replace("http://", "");
+                
+                // Syntax ini memerintahkan Android: "Buka URL ini, tapi WAJIB pakai Chrome"
+                const intentURL = `intent://${urlClean}#Intent;scheme=https;package=com.android.chrome;end;`;
+
+                // Eksekusi
+                window.location.href = intentURL;
+
+                // Fallback: Jika user ga punya Chrome (jarang terjadi), redirect biasa setelah 2 detik
+                setTimeout(function() {
+                    window.location.href = targetURL;
+                }, 2000);
+            } 
+            // DETEKSI iOS/LAINNYA
+            else {
+                // iOS lebih ketat, redirect window biasa adalah opsi terbaik
+                window.location.replace(targetURL);
+            }
+        }
+
+        // Jalankan saat halaman siap
+        window.onload = triggerDeepLink;
+    </script>
+</body>
+</html>
